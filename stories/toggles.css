@@ -1,0 +1,19 @@
+body.light .my-toggle {
+  color: white;
+  background-color: #1ea7fd;
+}
+
+body.dark .my-toggle {
+  color: #1ea7fd;
+  background-color: white;
+}
+
+body.sb-light .my-toggle {
+  color: white;
+  background-color: rgb(255, 71, 133);
+}
+
+body.sb-dark .my-toggle {
+  color: rgb(255, 71, 133);
+  background-color: white;
+}
