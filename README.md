@@ -4,7 +4,7 @@ This addon is used to add a list of user defined global toggles that are accessi
 
 Test it out at https://nickofthyme.github.io/storybook-addon-toggles/
 
-![Screen Recording 2023-05-26 at 11 24 24 AM](https://github.com/nickofthyme/storybook-addon-toggles/assets/19007109/c709d87f-faa5-41e8-a434-709238a92f6f)
+![Zight Recording 2025-08-21 at 06 06 14 PM](https://github.com/user-attachments/assets/c597b3dd-e4cb-4fed-ba37-bdc788fc147a)
 
 ## Compatibility
 
