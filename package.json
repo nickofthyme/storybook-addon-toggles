@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-toggles",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Storybook addon support global toggles",
   "keywords": [
     "storybook-addons",
@@ -43,7 +43,7 @@
     "release:dry": "yarn build && auto shipit --dry-run",
     "storybook": "storybook dev -p 6006",
     "storybook:dev": "onchange -i -k './src/**/*' -- yarn storybook --ci",
-    "build-storybook": "storybook build"
+    "storybook:build": "storybook build"
   },
   "dependencies": {
     "@storybook/icons": "1.4.0"

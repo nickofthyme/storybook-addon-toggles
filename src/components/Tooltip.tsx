@@ -1,9 +1,8 @@
 import React, { type ComponentProps, type FC } from 'react'
-import { UndoIcon, InfoIcon } from "@storybook/icons";
-import { TooltipLinkList } from 'storybook/internal/components';
+import { RefreshIcon, InfoIcon } from "@storybook/icons";
+import { TooltipLinkList, Checkbox } from 'storybook/internal/components';
 
 import type { ToggleOptions, Toggles } from '../types';
-import { Toggle } from './Toggle';
 import { styled } from 'storybook/theming';
 
 type Links = ComponentProps<typeof TooltipLinkList>['links'][number];
@@ -22,20 +21,21 @@ export const Tooltip: FC<Props> = ({ toggles, setToggle, resetToggles, options, 
     id,
     key: id,
     title: (
-      <TitleContainer title={title ?? id} description={description} />
+      <Column>
+        <Title>{title ?? id}</Title>
+        {description && <Description>{description}</Description>}
+      </Column>
     ),
     active: false,
     disabled,
     onClick: disabled ? undefined : () => {
       setToggle(id, !toggles[id]);
     },
-    right: (
-      <Toggle
+    icon: (
+      <Checkbox
+        checked={toggles[id] ?? false}
         disabled={disabled}
-        value={toggles[id] ?? false}
-        setValue={(value) => {
-          setToggle(id, value)
-        }}
+        onChange={({ target: { checked } }) => setToggle(id, checked)}
       />
     )
   }));
@@ -51,20 +51,26 @@ export const Tooltip: FC<Props> = ({ toggles, setToggle, resetToggles, options, 
       active: false,
       onClick: resetToggles,
       disabled: !hasChanges,
-      right: (
-        <CrossIconContainer>
-          <UndoIcon height={12} fill="currentColor" />
-        </CrossIconContainer>
-      )
+      icon: <RefreshIcon height={12} fill="currentColor" />
     });
   }
 
   return <TooltipLinkList links={links} />
 }
 
-const CrossIconContainer = styled.div`
-  margin-right: 4px;
-`;
+const Column = styled.span({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const Title = styled.span({
+  textTransform: 'capitalize',
+});
+
+const Description = styled.span(({ theme }) => ({
+  fontSize: 11,
+  color: theme.textMutedColor,
+}));
 
 const TitleContainer = ({ title, description }: Pick<ToggleOptions, 'title' | 'description'>) => {
   return (

@@ -27,12 +27,6 @@ export interface ToggleOptions<T extends string = string> {
 
 export interface Parameters<ToggleId extends string = string> {
   /**
-   * Ignores global values in url params
-   *
-   * @default true
-   */
-  ignoreQueryParams?: boolean;
-  /**
    * Toggle options
    */
   options: ToggleOptions<ToggleId>[];
@@ -72,7 +66,7 @@ export interface TogglesParameter {
  * could negatively affect the addon behavior across all stories.
  */
  export interface StoryTogglesParameter {
-  toggles?: Pick<Parameters, 'overrides' | 'disabled' | 'ignoreQueryParams' | 'clearable'>;
+  toggles?: Pick<Parameters, 'overrides' | 'disabled' | 'clearable'>;
  }
 
 export interface TogglesGlobals {

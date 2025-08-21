@@ -86,7 +86,6 @@ export const UnclearableToggles: Story = {
   ),
   parameters: {
     toggles: {
-      // ignoreQueryParams: true,
       clearable: false,
     }
   }

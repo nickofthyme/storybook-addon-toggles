@@ -46,12 +46,6 @@ The parameters for this plugin are under the `toggles` key and are defined below
 ```tsx
 export interface Parameters<ToggleId extends string = string> {
   /**
-   * Ignores global values in url params
-   *
-   * @default true
-   */
-  ignoreQueryParams?: false;
-  /**
    * Toggle options
    */
   options: ToggleOptions<ToggleId>[];
@@ -133,8 +127,6 @@ type Parameters = TogglesParameter & {
 
 export const parameters: Parameters = {
   toggles: {
-    ignoreQueryParams: false,
-    icon: 'form',
     options: [
       {
         id: 'option-1',
@@ -163,7 +155,7 @@ export const parameters: Parameters = {
 
 ### Story level
 
-All properties defined in `TogglesParameter` are capable of being overridden at the story level. However, it is only advisable to override some of the parameters to prevent defining parameters that could negatively affect the addon behavior across all stories. The acceptable properties include `overrides`, `options`, `disabled`, `ignoreQueryParams` and `clearable`. The `BackgroundStoryParameter` type is a helper that should be used to limit what properties are overridden at the story level.
+All properties defined in `TogglesParameter` are capable of being overridden at the story level. However, it is only advisable to override some of the parameters to prevent defining parameters that could negatively affect the addon behavior across all stories. The acceptable properties include `overrides`, `options`, `disabled` and `clearable`. The `BackgroundStoryParameter` type is a helper that should be used to limit what properties are overridden at the story level.
 
 ```tsx
 // story.stories.tsx

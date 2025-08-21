@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState, useRef, useMemo, type FC } fro
 import { FormIcon } from "@storybook/icons";
 import { useGlobals, useParameter, type API } from "storybook/manager-api";
 import { CURRENT_STORY_WAS_SET, SET_STORIES } from "storybook/internal/core-events";
-import { IconButton, WithTooltip, StorybookIcon } from 'storybook/internal/components';
+import { IconButton, WithTooltip } from 'storybook/internal/components';
 
 import { TOOL_ID } from "../constants";
 import type { Parameters, Toggles } from '../types';
@@ -63,12 +63,7 @@ export const Tool: FC<Props> = ({ api }) => {
     if (!togglesParams) return;
 
     const setDefaultToggles = () => {
-      if (togglesParamsRef.current) {
-        const toggles = getTogglesFromUrl(togglesParamsRef.current);
-        setToggles({...defaultToggles, ...toggles }, true);
-      } else {
-        setToggles(defaultToggles, true);
-      }
+      setToggles(defaultToggles, true);
     };
 
     setDefaultToggles();
@@ -123,27 +118,3 @@ export const Tool: FC<Props> = ({ api }) => {
     </WithTooltip>
   );
 };
-
-/**
- * Strip and validate toggles id from globals query param
- * This is needed as the initial globals are ALWAYS empty
- */
-function getTogglesFromUrl({ ignoreQueryParams = true }: Parameters): Toggles {
-  if (ignoreQueryParams) return {};
-
-  const globals = new URL(window.location.toString()).searchParams.get('globals') ?? '';
-  const regex = /toggles\.([^:]+):!([^;]+)/g;
-  const result: Record<string, boolean> = {};
-  let match = regex.exec(globals);
-
-  while (match !== null) {
-    const [, key, value] = match;
-
-    if (!key || (value !== 'true' && value !== 'false')) continue
-
-    result[key] = value === 'true';
-    match = regex.exec(globals);
-  }
-
-  return result
-}
