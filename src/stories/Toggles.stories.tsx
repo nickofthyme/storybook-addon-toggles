@@ -2,11 +2,9 @@ import React from "react";
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { StyledPre } from "./common";
-import { Toggles } from "./Toggles";
 
-const meta: Meta<typeof Toggles> = {
+const meta: Meta = {
   title: "Toggles",
-  component: Toggles,
   parameters: {},
 };
 

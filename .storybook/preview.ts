@@ -3,7 +3,6 @@ import type { Preview } from "@storybook/react-vite";
 import type { TogglesParameter } from '../src/types';
 import { Decorator } from './Decorator';
 
-
 type Parameters = Preview['parameters'] & TogglesParameter;
 
 const preview: Preview = {
