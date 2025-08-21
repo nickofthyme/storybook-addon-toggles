@@ -1,3 +1,15 @@
+# v0.0.7 (Thu Aug 21 2025)
+
+#### ⚠️ Pushed to `main`
+
+- chore: update README.md ([@nickofthyme](https://github.com/nickofthyme))
+
+#### Authors: 1
+
+- Nick Partridge ([@nickofthyme](https://github.com/nickofthyme))
+
+---
+
 # v0.0.4 (Thu Aug 21 2025)
 
 #### ⚠️ Pushed to `main`
