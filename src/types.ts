@@ -1,5 +1,3 @@
-import { IconsProps } from "@storybook/components";
-
 export type ToggleKey = string;
 export type ToggleValue = boolean
 export type Toggles = Record<string, ToggleValue>;
@@ -33,7 +31,7 @@ export interface Parameters<ToggleId extends string = string> {
    *
    * @default true
    */
-  ignoreQueryParams?: false;
+  ignoreQueryParams?: boolean;
   /**
    * Toggle options
    */
@@ -54,13 +52,6 @@ export interface Parameters<ToggleId extends string = string> {
    * @default false
    */
   disabled?: boolean;
-  /**
-   * Override icon used in toolbar
-   * See https://github.com/storybookjs/storybook/blob/release/6.2/lib/components/src/icon/icons.tsx
-   *
-   * @default 'form'
-   */
-  icon?: IconsProps['icon'];
   /**
    * A callback that will be executed when the toggles change
    */

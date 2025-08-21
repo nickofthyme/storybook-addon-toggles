@@ -1,20 +1,33 @@
 {
   "name": "storybook-addon-toggles",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Storybook addon support global toggles",
   "keywords": [
     "storybook-addons",
-    "background"
+    "toggles"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/nickofthyme/storybook-addon-toggles"
   },
+  "type": "module",
   "author": "Nick Partridge <nick.ryan.partridge@gmail.com>",
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./preview": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/preview.js",
+      "require": "./dist/preview.cjs"
+    },
+    "./preset": "./dist/preset.cjs",
+    "./manager": "./dist/manager.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -22,54 +35,60 @@
     "*.d.ts"
   ],
   "scripts": {
-    "clean": "rimraf ./dist",
-    "buildBabel": "concurrently \"yarn buildBabel:cjs\" \"yarn buildBabel:esm\"",
-    "buildBabel:cjs": "babel ./src -d ./dist/cjs --extensions \".js,.jsx,.ts,.tsx\"",
-    "buildBabel:esm": "babel ./src -d ./dist/esm --env-name esm --extensions \".js,.jsx,.ts,.tsx\"",
-    "buildTsc": "tsc --declaration --emitDeclarationOnly --outDir ./dist/ts",
-    "prebuild": "yarn clean",
-    "build": "concurrently \"yarn buildBabel\" \"yarn buildTsc\"",
-    "build:watch": "concurrently \"yarn buildBabel:esm -- --watch\" \"yarn buildTsc -- --watch\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 6006  --no-version-updates",
-    "start": "concurrently \"yarn build:watch\" \"yarn storybook -- --no-manager-cache --quiet\"",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages",
-    "prerelease": "zx scripts/prepublish-checks.mjs",
-    "release": "yarn build && auto shipit"
+    "build": "tsup",
+    "build:watch": "yarn build --watch",
+    "start": "run-p build:watch \"storybook --quiet\"",
+    "prerelease": "zx scripts/prepublish-checks.js",
+    "release": "yarn build && auto shipit",
+    "release:dry": "yarn build && auto shipit --dry-run",
+    "storybook": "storybook dev -p 6006",
+    "storybook:dev": "onchange -i -k './src/**/*' -- yarn storybook --ci",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@storybook/icons": "1.4.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.12.5",
-    "@babel/preset-typescript": "^7.13.0",
-    "@storybook/react": "~6.2.9",
-    "@storybook/storybook-deployer": "^2.8.10",
-    "auto": "^10.3.0",
-    "babel-loader": "^8.1.0",
-    "boxen": "^5.0.1",
-    "concurrently": "^6.2.0",
-    "dedent": "^0.7.0",
-    "prettier": "^2.3.1",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.2.4",
-    "zx": "^1.14.1"
+    "@storybook/addon-docs": "^9.0.0",
+    "@storybook/react-vite": "^9.0.0",
+    "@types/node": "^22",
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.21",
+    "@vitejs/plugin-react": "^4.2.1",
+    "auto": "^11.1.1",
+    "boxen": "^7.1.1",
+    "npm-run-all2": "^6.2.3",
+    "onchange": "^7.1.0",
+    "prettier": "^3.3.3",
+    "prompts": "^2.4.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^9.0.0",
+    "ts-dedent": "^2.2.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.8.2",
+    "vite": "^5.3.5",
+    "zx": "^8.4.1"
   },
   "peerDependencies": {
-    "@storybook/addons": "~6.2.9",
-    "@storybook/api": "~6.2.9",
-    "@storybook/components": "~6.2.9",
-    "@storybook/core-events": "~6.2.9",
-    "@storybook/theming": "~6.2.9",
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "storybook": "^9.0.0"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "exportEntries": [
+      "src/index.ts"
+    ],
+    "managerEntries": [
+      "src/manager.tsx"
+    ],
+    "previewEntries": [
+      "src/preview.ts"
+    ],
+    "nodeEntries": [
+      "src/preset.ts"
+    ]
   },
   "storybook": {
     "displayName": "Addon Background Toggle",

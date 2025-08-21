@@ -1,11 +1,11 @@
-import { DecoratorFunction } from "@storybook/addons";
-import { styled } from "@storybook/theming";
 import React from "react";
+import { styled } from "storybook/theming";
+import type { Decorator as DecoratorFn } from "@storybook/react";
 
-import { TogglesGlobals } from '../src/types';
-import { StyledPre } from '../stories/common';
+import type { TogglesGlobals } from '../src/types';
+import { StyledPre } from '../src/stories/common';
 
-export const Decorator: DecoratorFunction<JSX.Element> = (Story, context) => {
+export const Decorator: DecoratorFn = (Story, context) => {
   const globals = context.globals as TogglesGlobals;
 
   return (
@@ -26,10 +26,3 @@ export const Decorator: DecoratorFunction<JSX.Element> = (Story, context) => {
 const Container = styled.div`
   margin: 3rem;
 `
-
-const CustomBackground = styled.div`
-  padding: 1rem;
-  margin-top: 1rem;
-  background: #EEEEEE !important;
-`
-

@@ -1,28 +1,30 @@
 import React from "react";
+import type { Meta, StoryObj } from '@storybook/react';
+
 import { StyledPre } from "./common";
 import { Toggles } from "./Toggles";
 
-export default {
+const meta: Meta<typeof Toggles> = {
   title: "Toggles",
   component: Toggles,
   parameters: {},
 };
 
-export const Example1 = () => {
-  return (
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Defaults: Story = {
+  render: () => (
     <div>
       <span>
         By default the toggle values defined in the parameters will be used. Allowing modifications from the menu bar.
       </span>
     </div>
-  );
+  ),
 };
 
-Example1.storyName = 'Defaults'
-Example1.parameters = {}
-
-export const Example2 = () => {
-  return (
+export const ReplacingToggles: Story = {
+  render: () => (
     <div>
       <span>
         You can replace or change global toggles at the story level using the parameters option.
@@ -47,28 +49,51 @@ export const Example2 = () => {
 }`}
       </StyledPre>
     </div>
-  );
-};
-Example2.storyName = 'Replacing Toggles'
-Example2.parameters = {
-  toggles: {
-    options: [
-      {
-        id: 'new-option-1',
-        title: 'New Option 1',
-        defaultValue: false,
-      },
-      {
-        id: 'new-option-2',
-        title: 'Options 2',
-        defaultValue: true,
-      }
-    ]
+  ),
+  parameters: {
+    toggles: {
+      options: [
+        {
+          id: 'new-option-1',
+          title: 'New Option 1',
+          defaultValue: false,
+        },
+        {
+          id: 'new-option-2',
+          title: 'Options 2',
+          defaultValue: true,
+        }
+      ]
+    }
   }
-}
+};
 
-export const Example3 = () => {
-  return (
+export const UnclearableToggles: Story = {
+  render: () => (
+    <div>
+      <span>
+        You can set `clearable` to `false` to hide option to reset toggle values to their defaults.
+      </span>
+
+      <StyledPre>
+{`Story.parameters = {
+  toggles: {
+    clearable: false,
+  }
+}`}
+      </StyledPre>
+    </div>
+  ),
+  parameters: {
+    toggles: {
+      // ignoreQueryParams: true,
+      clearable: false,
+    }
+  }
+};
+
+export const ToggleOverrides: Story = {
+  render: () => (
     <div>
       <span>
         You can override toggle values using the override option with the id and new value. This will override the default toggle values.
@@ -86,21 +111,20 @@ export const Example3 = () => {
 }`}
       </StyledPre>
     </div>
-  );
-};
-Example3.storyName = 'Toggle Overrides'
-Example3.parameters = {
-  toggles: {
-    overrides: {
-      'option-1': false,
-      'option-2': false,
-      'option-3': false,
+  ),
+  parameters: {
+    toggles: {
+      overrides: {
+        'option-1': false,
+        'option-2': false,
+        'option-3': false,
+      }
     }
   }
-}
+};
 
-export const Example4 = () => {
-  return (
+export const ToggleInfoDescription: Story = {
+  render: () => (
     <div>
       <span>
         You can set the description on the toggle to show an info icon that displays on hover.
@@ -126,29 +150,28 @@ export const Example4 = () => {
 }`}
       </StyledPre>
     </div>
-  );
-};
-Example4.storyName = 'Toggle info/description'
-Example4.parameters = {
-  toggles: {
-    options: [
-      {
-        id: 'info-option',
-        title: 'With info',
-        description: 'This toggle has info/description',
-        defaultValue: false,
-      },
-      {
-        id: 'no-info-option',
-        title: 'Without info',
-        defaultValue: false,
-      },
-    ]
+  ),
+  parameters: {
+    toggles: {
+      options: [
+        {
+          id: 'info-option',
+          title: 'With info',
+          description: 'This toggle has info/description',
+          defaultValue: false,
+        },
+        {
+          id: 'no-info-option',
+          title: 'Without info',
+          defaultValue: false,
+        },
+      ]
+    }
   }
-}
+};
 
-export const Example5 = () => {
-  return (
+export const DisableToggles: Story = {
+  render: () => (
     <div>
       <span>
         You can set the toggle disabled property to a boolean or an object. The object will keys are other toggle ids and the value that will disable the trigger.
@@ -185,31 +208,30 @@ export const Example5 = () => {
 }`}
       </StyledPre>
     </div>
-  );
-};
-Example5.storyName = 'Disable Toggles'
-Example5.parameters = {
-  toggles: {
-    options: [
-      {
-        id: 'option-1',
-        title: 'Option 1',
-        defaultValue: false,
-      },
-      {
-        id: 'option-2',
-        title: 'Option 2',
-        defaultValue: true,
-        disabled: {
-          "option-1": true
-        }
-      },
-      {
-        id: 'option-3',
-        title: 'Option 3',
-        defaultValue: true,
-        disabled: true,
-      },
-    ]
+  ),
+  parameters: {
+    toggles: {
+      options: [
+        {
+          id: 'option-1',
+          title: 'Option 1',
+          defaultValue: false,
+        },
+        {
+          id: 'option-2',
+          title: 'Option 2',
+          defaultValue: true,
+          disabled: {
+            "option-1": true
+          }
+        },
+        {
+          id: 'option-3',
+          title: 'Option 3',
+          defaultValue: true,
+          disabled: true,
+        },
+      ]
+    }
   }
-}
+};

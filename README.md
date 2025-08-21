@@ -21,7 +21,7 @@ yarn add -D storybook-addon-toggles
 
 ### npm
 ```sh
-npm i -D storybook-addon-toggles
+npm i -S storybook-addon-toggles
 ```
 
 ## Getting started
@@ -203,7 +203,7 @@ Global storybook [`Decorators`](https://storybook.js.org/docs/react/writing-stor
 Below is a simple example of how you could access the toggles via the `context.globals`.
 
 ```tsx
-// preview.tsx
+// preview.ts
 
 import React from "react";
 

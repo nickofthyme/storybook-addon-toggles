@@ -1,4 +1,4 @@
-import { styled } from "@storybook/theming";
+import { styled } from "storybook/theming";
 
 export const StyledPre = styled.pre`
   margin-top: 2rem;

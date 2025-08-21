@@ -1,4 +1,4 @@
-name: Release
+name: Build
 
 on: [push]
 
@@ -20,9 +20,10 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1.10.10
 
-      - name: Create Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build
         run: |
-          yarn release
+          yarn build
+
+      - name: Build Storybook
+        run: |
+          yarn build-storybook

@@ -1,8 +1,8 @@
 import React from "react";
-import { addons, types } from "@storybook/addons";
+import { addons, types } from "storybook/manager-api";
 
-import { ADDON_ID, TOOL_ID } from "../constants";
-import { Tool } from "../components/Tool";
+import { Tool } from "./components/Tool";
+import { ADDON_ID, TOOL_ID } from "./constants";
 
 addons.register(ADDON_ID, (api) => {
   addons.add(TOOL_ID, {

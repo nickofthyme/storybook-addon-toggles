@@ -1,11 +1,12 @@
-import React, { useEffect, useCallback, useState, useRef, FC, useMemo } from "react";
-import { API, useGlobals, useParameter } from "@storybook/api";
-import { Icons, IconButton, WithTooltip } from '@storybook/components';
+import React, { useEffect, useCallback, useState, useRef, useMemo, type FC } from "react";
+import { FormIcon } from "@storybook/icons";
+import { useGlobals, useParameter, type API } from "storybook/manager-api";
+import { CURRENT_STORY_WAS_SET, SET_STORIES } from "storybook/internal/core-events";
+import { IconButton, WithTooltip, StorybookIcon } from 'storybook/internal/components';
 
 import { TOOL_ID } from "../constants";
-import { Parameters, Toggles } from '../types';
+import type { Parameters, Toggles } from '../types';
 import { Tooltip } from "./Tooltip";
-import { CURRENT_STORY_WAS_SET, SET_STORIES } from "@storybook/core-events";
 
 interface Props {
   api: API;
@@ -14,6 +15,7 @@ interface Props {
 const iconBtnId = "storybook-addon-toggles-icon-btn";
 
 export const Tool: FC<Props> = ({ api }) => {
+  const [hasChanges, setHasChanges] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [globals, updateGlobals] = useGlobals();
   const togglesParams = useParameter<Parameters | null>('toggles', null);
@@ -41,7 +43,8 @@ export const Tool: FC<Props> = ({ api }) => {
   );
 
   const setToggle = useCallback(
-    (id:string, value: boolean, forcedUpdate = false) => {
+    (id: string, value: boolean, forcedUpdate = false) => {
+      setHasChanges(true);
       setToggles({
         ...defaultToggles,
         ...globals.toggles,
@@ -52,6 +55,7 @@ export const Tool: FC<Props> = ({ api }) => {
   );
 
   const resetToggles = (forcedUpdate?: boolean) => {
+    setHasChanges(false);
     setToggles(defaultToggles, forcedUpdate);
   }
 
@@ -60,8 +64,7 @@ export const Tool: FC<Props> = ({ api }) => {
 
     const setDefaultToggles = () => {
       if (togglesParamsRef.current) {
-        const rawToggles = getTogglesFromUrl(togglesParamsRef.current) ?? '{}';
-        const toggles = JSON.parse(rawToggles);
+        const toggles = getTogglesFromUrl(togglesParamsRef.current);
         setToggles({...defaultToggles, ...toggles }, true);
       } else {
         setToggles(defaultToggles, true);
@@ -94,10 +97,12 @@ export const Tool: FC<Props> = ({ api }) => {
       placement="top"
       trigger="click"
       startOpen={false}
-      tooltipShown={expanded}
-      onVisibilityChange={setExpanded}
+      visible={expanded}
+      closeOnOutsideClick
+      onVisibleChange={setExpanded}
       tooltip={
         <Tooltip
+          hasChanges={hasChanges}
           toggles={globals.toggles}
           setToggle={setToggle}
           resetToggles={resetToggles}
@@ -109,11 +114,11 @@ export const Tool: FC<Props> = ({ api }) => {
       <IconButton
         id={iconBtnId}
         key={TOOL_ID}
-        active={true}
+        active={expanded}
         title="Toggle options"
         onClick={() => setExpanded(true)}
       >
-        <Icons icon={togglesParams.icon ?? 'form'} />
+        <FormIcon />
       </IconButton>
     </WithTooltip>
   );
@@ -123,11 +128,22 @@ export const Tool: FC<Props> = ({ api }) => {
  * Strip and validate toggles id from globals query param
  * This is needed as the initial globals are ALWAYS empty
  */
-function getTogglesFromUrl({ ignoreQueryParams }: Parameters) {
-  if (ignoreQueryParams ?? true) return '{}';
+function getTogglesFromUrl({ ignoreQueryParams = true }: Parameters): Toggles {
+  if (ignoreQueryParams) return {};
 
-  const re = /toggles:([^;]*)/;
   const globals = new URL(window.location.toString()).searchParams.get('globals') ?? '';
-  const [, toggles] = re.exec(globals) ?? [];
-  return toggles;
+  const regex = /toggles\.([^:]+):!([^;]+)/g;
+  const result: Record<string, boolean> = {};
+  let match = regex.exec(globals);
+
+  while (match !== null) {
+    const [, key, value] = match;
+
+    if (!key || (value !== 'true' && value !== 'false')) continue
+
+    result[key] = value === 'true';
+    match = regex.exec(globals);
+  }
+
+  return result
 }

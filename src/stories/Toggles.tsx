@@ -1,6 +1,7 @@
-import React, { FC, ReactNode } from "react";
+import React, { type FC, type ReactNode } from "react";
+import { styled } from "storybook/theming";
+
 import "./toggles.css";
-import { styled } from "@storybook/theming";
 
 interface Props {
   children: ReactNode;
