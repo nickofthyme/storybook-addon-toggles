@@ -1,8 +1,9 @@
 import React, { type ComponentProps, type FC } from 'react'
 import { RefreshIcon, InfoIcon } from "@storybook/icons";
-import { TooltipLinkList, Checkbox } from 'storybook/internal/components';
+import { TooltipLinkList } from 'storybook/internal/components';
 
 import type { ToggleOptions, Toggles } from '../types';
+import { Checkbox } from './Checkbox';
 import { styled } from 'storybook/theming';
 
 type Links = ComponentProps<typeof TooltipLinkList>['links'][number];
@@ -35,7 +36,7 @@ export const Tooltip: FC<Props> = ({ toggles, setToggle, resetToggles, options, 
       <Checkbox
         checked={toggles[id] ?? false}
         disabled={disabled}
-        onChange={({ target: { checked } }) => setToggle(id, checked)}
+        onChange={(checked) => setToggle(id, checked)}
       />
     )
   }));
