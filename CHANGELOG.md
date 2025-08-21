@@ -1,3 +1,15 @@
+# v0.0.8 (Thu Aug 21 2025)
+
+#### ⚠️ Pushed to `main`
+
+- fix: remove missing internal components ([@nickofthyme](https://github.com/nickofthyme))
+
+#### Authors: 1
+
+- Nick Partridge ([@nickofthyme](https://github.com/nickofthyme))
+
+---
+
 # v0.0.7 (Thu Aug 21 2025)
 
 #### ⚠️ Pushed to `main`
